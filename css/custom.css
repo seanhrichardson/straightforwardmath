@@ -1,0 +1,12 @@
+  :root {
+    --light-grey: grey;
+    --grey: #828282;
+    --dark-grey: #606060;
+  }
+
+  p {
+    font-family: "Computer Modern";
+    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+    text-align: justify;
+    font-size:20px
+  }
