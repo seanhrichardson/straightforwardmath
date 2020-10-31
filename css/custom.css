@@ -22,7 +22,14 @@ ol, ul {
 }
 
 .problems {
-  columns: 4;
+  columns: 3;
+}
+
+.answer-box {
+  width: 50px;
+  margin: 0px 0px 0px 0px;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
 }
 
 .problems > li {
@@ -46,16 +53,27 @@ ol, ul {
   z-index: 1;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /*smaller than tablet*/
 @media screen and (max-width: 900px) {
   .problems {
-    columns: 3;
+    columns: 2;
   }
 }
 
 /*smaller than phone*/
 @media screen and (max-width: 600px) {
   .problems {
-    columns: 2
+    columns: 1
   }
 }
