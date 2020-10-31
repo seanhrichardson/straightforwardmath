@@ -1,12 +1,61 @@
-  :root {
-    --light-grey: grey;
-    --grey: #828282;
-    --dark-grey: #606060;
-  }
+:root {
+  --light-grey: grey;
+  --grey: #828282;
+  --dark-grey: #606060;
+}
 
-  p {
-    font-family: "Computer Modern";
-    src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
-    text-align: justify;
-    font-size:20px
+body {
+  background-color: #bbbbbb;
+  font-family: "Computer Modern";
+  src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+  font-size:20px;
+  text-align: justify;
+}
+
+.wrapper {
+  position: relative;
+  margin: 0 auto;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+.problems {
+  columns: 4;
+}
+
+.problems > li {
+  background-color: #fff;
+  border-radius: 0px;
+  border: 2px solid rgb(0, 0, 0);
+  margin: 0px 0px 20px 0px;
+  padding: 10px 10px 10px 10px;;
+  z-index: 1;
+  text-align: center;
+}
+
+.box {
+  display: block;
+  position: relative;
+  background-color: #fff;
+  margin: 50px 0px 50px 0px;
+  padding: 20px 20px 20px 20px;
+  border-radius: 25px;
+  border: 2px solid rgb(0, 0, 0);
+  z-index: 1;
+}
+
+/*smaller than tablet*/
+@media screen and (max-width: 900px) {
+  .problems {
+    columns: 3;
   }
+}
+
+/*smaller than phone*/
+@media screen and (max-width: 600px) {
+  .problems {
+    columns: 2
+  }
+}
