@@ -2,6 +2,8 @@
   --light-grey: grey;
   --grey: #828282;
   --dark-grey: #606060;
+  --green-right: #90EE90;
+  --red-wrong: #FF7F7F;
 }
 
 body {
@@ -10,6 +12,18 @@ body {
   src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
   font-size:20px;
   text-align: justify;
+}
+
+button {
+  float: right;
+  font-family: "Computer Modern";
+  src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
+  font-size:20px;
+  text-align: justify;
+  color:black;
+  text-transform: none;
+  font-weight:normal;
+  border: 2px dotted rgb(0, 0, 0);
 }
 
 .wrapper {
@@ -64,10 +78,25 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.lg-view {
+  display:inline-block;
+}
+
+.sm-view {
+  display:none;
+}
+
 /*smaller than tablet*/
 @media screen and (max-width: 900px) {
   .problems {
     columns: 2;
+  }
+  .lg-view {
+    display:none;
+  }
+  
+  .sm-view {
+    display:inline-block;
   }
 }
 

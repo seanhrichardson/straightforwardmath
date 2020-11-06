@@ -26,7 +26,6 @@
 
 </head>
 <body>
-
 <div class="container">
   <div class = "box">
     <h4>Test Page Filler Text</h4>
@@ -43,36 +42,69 @@
    <p> Maecenas interdum id tortor ultricies lacinia. In feugiat dui a tempus venenatis. Morbi in libero a neque dictum fringilla id in purus. Nulla sit amet porta elit. Sed ornare maximus tellus, sed imperdiet nulla iaculis sed. Sed ut auctor mauris. Suspendisse potenti. </p>
   </div>
 
-<ol class = "problems">
-  <li> \(1+4=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(2-4=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(5+6=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(7-2=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(4+3=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(8-1=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(12+13=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(14-7=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(16+8=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(12+4=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(-2+3=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-</ol>
+  <div class = "box" style = border-radius:0px;>
+    <h4 style=display:inline-block;margin-bottom:0px> 
+      <span class="lg-view">Practice Probems</span>
+      <span class="sm-view">Practice</span>
+    </h4>
+    <button onclick="myFunction()" style=margin-bottom:0px>
+      <span class="lg-view">Check Answers</span>
+      <span class="sm-view">Check</span>
+    </button> 
+  </div>
 
-<div class = "box">
-  <h4>Even More Filler Text</h4>
-  <p> Donec tincidunt, nibh eu sollicitudin rutrum, arcu lectus venenatis elit, vel molestie sem lacus eget urna. Fusce quis metus sapien. Vestibulum eget sapien vestibulum, pharetra lorem porttitor, feugiat nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur faucibus, neque ut rhoncus maximus, lectus massa sodales mi, in feugiat libero est at dolor. Duis aliquet dignissim auctor. Maecenas facilisis, ex non tincidunt consectetur, massa nibh maximus dui, non lacinia neque enim id nulla. Mauris sed eros sit amet tortor faucibus scelerisque et in dui. Aenean commodo dolor eu nulla luctus malesuada. In venenatis elit ac ligula consequat hendrerit. Sed tincidunt lectus in ipsum euismod, aliquam finibus lacus maximus. Curabitur sapien augue, vestibulum eget est eu, volutpat condimentum risus. Fusce magna augue, interdum ut nulla vel, interdum aliquet diam. </p>
-</div>
+  <ol class = "problems">
+    <li id = "1"> \(1+4=\) <input id="Q1" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "2"> \(2-4=\) <input id="Q2" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "3"> \(5+6=\) <input id="Q3" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "4"> \(7-2=\) <input id="Q4" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "5"> \(4+3=\) <input id="Q5" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "6"> \(8-1=\) <input id="Q6" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "7"> \(12+13=\) <input id="Q7" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "8"> \(14-7=\) <input id="Q8" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "9"> \(16+8=\) <input id="Q9" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "10"> \(12+4=\) <input id="Q10" type="number" pattern="\d*" class = "answer-box"/></li>
+    <li id = "11"> \(-2+3=\) <input id="Q11" type="number" pattern="\d*" class = "answer-box"/></li>
+  </ol>
+  <p id="demo"></p>
 
-<label>Test One</label>
-<input type = "number"/>
-<!-- Test two is winner!! -->
-<label>Test Two</label>
-<input type="number" pattern="\d*"/>
-<label>Test Three</label>
-<input type="tel"/>
-<label>Test Four</label>
-<input type="text" style="-wap-input-format: 'N'"/>
+  <script>
+    function myFunction() {
+      var answers = {
+        Q1: 5, Q2: -2, Q3: 11, Q4: 5,
+        Q5: 7, Q6: 7, Q7: 25, Q8: 7,
+        Q9: 24, Q10: 16, Q11: 1,
+      };
+      var i;
+      //text = document.getElementById("Q1").value;
+      for (i = 1; i <= 11; i++){
+        numStr = i.toString();
+        QnumStr = "Q" + numStr;
+        if (document.getElementById(QnumStr).value == answers[QnumStr]) {
+        document.getElementById(numStr).style.backgroundColor = "#90EE90";
+        }
+        else {
+          document.getElementById(numStr).style.backgroundColor = "#FF7F7F";
+        }     
+      }
+      
+    }
+    </script>
 
+  <div class = "box">
+    <h4>Even More Filler Text</h4>
+    <p> Donec tincidunt, nibh eu sollicitudin rutrum, arcu lectus venenatis elit, vel molestie sem lacus eget urna. Fusce quis metus sapien. Vestibulum eget sapien vestibulum, pharetra lorem porttitor, feugiat nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur faucibus, neque ut rhoncus maximus, lectus massa sodales mi, in feugiat libero est at dolor. Duis aliquet dignissim auctor. Maecenas facilisis, ex non tincidunt consectetur, massa nibh maximus dui, non lacinia neque enim id nulla. Mauris sed eros sit amet tortor faucibus scelerisque et in dui. Aenean commodo dolor eu nulla luctus malesuada. In venenatis elit ac ligula consequat hendrerit. Sed tincidunt lectus in ipsum euismod, aliquam finibus lacus maximus. Curabitur sapien augue, vestibulum eget est eu, volutpat condimentum risus. Fusce magna augue, interdum ut nulla vel, interdum aliquet diam. </p>
+  </div>
 
+  <label>Test One</label>
+  <input type = "number"/>
+  <!-- Test two is winner!! -->
+  <label>Test Two</label>
+  <input type="number" pattern="\d*"/>
+  <label>Test Three</label>
+  <input type="tel"/>
+  <label>Test Four</label>
+  <input type="text" style="-wap-input-format: 'N'"/>
 </div>
 
 </body>
