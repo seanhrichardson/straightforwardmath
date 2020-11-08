@@ -29,50 +29,99 @@
 
 <div class="container">
   <div class = "box">
-    <h4>Filler Text</h4>
-    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis aliquet odio, sit amet iaculis eros dignissim id. Nunc sit amet maximus leo. Vivamus quis cursus tortor. Nullam sed efficitur lacus, ut ultrices sapien. Donec erat mi, pharetra at accumsan et, interdum a sem. Morbi blandit ipsum vitae est accumsan suscipit. Donec ac urna ac velit tincidunt tempus. Curabitur sit amet enim dui. Ut id nisl quam. In sit amet velit laoreet, imperdiet lectus quis, sodales risus. Fusce sed pulvinar nibh, sed ultricies leo. </p>
-
-    <p>
-    \[f(a) = \frac{1}{2\pi i} \oint_{\gamma} \frac{f(z)}{z-a}dz\] 
-    </p>
-    
-    <p> Pellentesque pretium nisi dolor, lobortis semper felis congue sit amet. Morbi accumsan pulvinar mattis. In aliquam ultrices iaculis. Curabitur feugiat nec ligula at rutrum. Maecenas aliquam eros et tempus auctor. Pellentesque non sapien tempor, tristique dolor quis, rutrum mauris. Suspendisse pellentesque convallis ex, eget mattis quam laoreet nec. Vivamus pellentesque volutpat porttitor. Aenean ultrices commodo tellus sed viverra. Nulla non ex at magna vehicula bibendum quis sed risus. Phasellus eu sapien eu diam vulputate placerat a et metus. Nullam ultricies vulputate venenatis. Nulla vitae nulla varius, mattis nisl sed, semper lectus. In ex augue, laoreet quis ligula eget, euismod viverra turpis. Quisque mattis elit a turpis rhoncus, sit amet imperdiet ligula ultricies. Suspendisse in laoreet purus. Inline mathematics equations such as \(e^{i \theta} = \cos(\theta) + i \sin(\theta)\) would be good to include in this filler text </p>
+    <h1 style = text-align:center;margin-bottom:0cm> Straightforward Math </h1>
   </div>
+  <div class = "menu">
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Testing New Style</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm1" onclick="toggleHidden('1')" class="hover">+</h4>
+      </div>
+      <div id="hidden1" style=display:none;>
+        asdfl ajdhf lkasdhf lkajhf lkadhf lkajhdf lkaj dhfhidden text asdfh aljh
+      </div>
+    </div>
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Testing New Style</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm2" onclick="toggleHidden('2')" class="hover">+</h4>
+      </div>
+      <div id="hidden2" style=display:none;>
+        asdfl ajdhf lkasdhf lkajhf lkadhf lkajhdf lkaj dhfhidden text asdfh aljh
+      </div>
+    </div>
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Testing New Style</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm3" onclick="toggleHidden('3')" class="hover">+</h4>
+      </div>
+      <div id="hidden3" style=display:none;>
+        asdfl ajdhf lkasdhf lkajhf lkadhf lkajhdf lkaj dhfhidden text asdfh aljh
+      </div>
+    </div>
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Testing New Style</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm4" onclick="toggleHidden('4')" class="hover">+</h4>
+      </div>
+      <div id="hidden4" style=display:none;>
+        asdfl ajdhf lkasdhf lkajhf lkadhf lkajhdf lkaj dhfhidden text asdfh aljh
+      </div>
+  </div>
+  <script>
+    function toggleHidden(num) {
+      div = document.getElementById("pm"+num);
+      if (div.innerHTML == "+") {
+        document.getElementById("hidden"+num).style.display = "inline-block";
+        div.innerHTML = "-";
+      }
+      else {
+        document.getElementById("hidden"+num).style.display = "none";
+        div.innerHTML = "+";
+      }
+    }
+  </script>
+  <style>
+    .left {
+      width:90%; height: 100%; /*background:red;*/ float:left;
+    }
+    .right {
+      width:10%; height: 100%; /*background:blue;*/ float:right;
+    }
+    .hover:hover {
+      color:#33C3F0;
+      cursor: pointer;
+    }
+    .vertical-center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+  </style>
+
+  <!-- TODO work on the new display -->
+  <script>
+    function displayMore(textId) {
+
+    }
+  </script>
+
   <div class = "box">
-    <h4>More Filler Text</h4>
-   <p> Maecenas interdum id tortor ultricies lacinia. In feugiat dui a tempus venenatis. Morbi in libero a neque dictum fringilla id in purus. Nulla sit amet porta elit. Sed ornare maximus tellus, sed imperdiet nulla iaculis sed. Sed ut auctor mauris. Suspendisse potenti. </p>
+    <h4> About Straightforward Math </h4>
+    <p>
+      TODO: put an actual description in here. It will probably be easier to put in a description after I actually have something. For now: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis aliquet odio, sit amet iaculis eros dignissim id. Nunc sit amet maximus leo. Vivamus quis cursus tortor. Nullam sed efficitur lacus, ut ultrices sapien. Donec erat mi, pharetra at accumsan et, interdum a sem. Morbi blandit ipsum vitae est accumsan suscipit. Donec ac urna ac velit tincidunt tempus. Curabitur sit amet enim dui. Ut id nisl quam. In sit amet velit laoreet, imperdiet lectus quis, sodales risus. Fusce sed pulvinar nibh, sed ultricies leo.
+    </p>
   </div>
-
-<ol class = "problems">
-  <li> \(1+4=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(2-4=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(5+6=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(7-2=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(4+3=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(8-1=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(12+13=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(14-7=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(16+8=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(12+4=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-  <li> \(-2+3=\) <input type="number" pattern="\d*" class = "answer-box"/></li>
-</ol>
-
-<div class = "box">
-  <h4>Even More Filler Text</h4>
-  <p> Donec tincidunt, nibh eu sollicitudin rutrum, arcu lectus venenatis elit, vel molestie sem lacus eget urna. Fusce quis metus sapien. Vestibulum eget sapien vestibulum, pharetra lorem porttitor, feugiat nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur faucibus, neque ut rhoncus maximus, lectus massa sodales mi, in feugiat libero est at dolor. Duis aliquet dignissim auctor. Maecenas facilisis, ex non tincidunt consectetur, massa nibh maximus dui, non lacinia neque enim id nulla. Mauris sed eros sit amet tortor faucibus scelerisque et in dui. Aenean commodo dolor eu nulla luctus malesuada. In venenatis elit ac ligula consequat hendrerit. Sed tincidunt lectus in ipsum euismod, aliquam finibus lacus maximus. Curabitur sapien augue, vestibulum eget est eu, volutpat condimentum risus. Fusce magna augue, interdum ut nulla vel, interdum aliquet diam. </p>
-</div>
-
-<label>Test One</label>
-<input type = "number"/>
-<!-- Test two is winner!! -->
-<label>Test Two</label>
-<input type="number" pattern="\d*"/>
-<label>Test Three</label>
-<input type="tel"/>
-<label>Test Four</label>
-<input type="text" style="-wap-input-format: 'N'"/>
-
-
 </div>
 
 </body>

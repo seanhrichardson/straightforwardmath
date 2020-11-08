@@ -6,13 +6,33 @@
   --red-wrong: #FF7F7F;
 }
 
+menu {
+  column-count: 3;
+}
+
 body {
-  background-color: #bbbbbb;
+  background-color: rgb(16, 128, 148);
   font-family: "Computer Modern";
   src: url('http://mirrors.ctan.org/fonts/cm-unicode/fonts/otf/cmunss.otf');
   font-size:20px;
   text-align: justify;
 }
+
+.link {
+  background-color: #fff;
+  border-radius: 0px;
+  border: 2px solid rgb(0, 0, 0);
+  margin: 0px 0px 20px 0px;
+  padding: 0px 0px 0px 0px;
+  z-index: 1;
+  text-align: center;
+  overflow: hidden;
+}
+
+#test-page-info { display: none; }
+.link:hover #test-page-info { display: block; }
+#arithmetic-page-info { display: none; }
+.link:hover #arithmetic-page-info { display: block; }
 
 button {
   float: right;
@@ -54,6 +74,25 @@ ol, ul {
   padding: 10px 10px 10px 10px;;
   z-index: 1;
   text-align: center;
+}
+
+.question {
+  display: block;
+  position: relative;
+  background-color: #fff;
+  margin: 50px 0px 50px 0px;
+  padding: 20px 20px 20px 20px;
+  border-radius: 25%;
+  border: 2px solid rgb(0, 0, 0);
+  z-index: 1;
+}
+
+.circle-with-text {
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  text-align: center;
+  display: flex;
 }
 
 .box {
