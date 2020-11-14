@@ -41,7 +41,7 @@
     <p> Pellentesque pretium nisi dolor, lobortis semper felis congue sit amet. Morbi accumsan pulvinar mattis. In aliquam ultrices iaculis. Curabitur feugiat nec ligula at rutrum. Maecenas aliquam eros et tempus auctor. Pellentesque non sapien tempor, tristique dolor quis, rutrum mauris. Suspendisse pellentesque convallis ex, eget mattis quam laoreet nec. Vivamus pellentesque volutpat porttitor. Aenean ultrices commodo tellus sed viverra. Nulla non ex at magna vehicula bibendum quis sed risus. Phasellus eu sapien eu diam vulputate placerat a et metus. Nullam ultricies vulputate venenatis. Nulla vitae nulla varius, mattis nisl sed, semper lectus. In ex augue, laoreet quis ligula eget, euismod viverra turpis. Quisque mattis elit a turpis rhoncus, sit amet imperdiet ligula ultricies. Suspendisse in laoreet purus. Inline mathematics equations such as \(e^{i \theta} = \cos(\theta) + i \sin(\theta)\) would be good to include in this filler text </p>
   </div>
   <div class = "question">
-    <h5 style=margin-top:20px;margin-bottom:20px;margin-left:10%;margin-right:10%;font-style:italic> This is a motivating question. All motivating questions will be in this format. Not a huge fan of the format, but at least it's simple and consistent. Maybe I'll change it. What do you think about it? </h5>
+    <h5 style=margin-top:30px;margin-bottom:20px;margin-left:10%;margin-right:10%;font-style:italic> This is a motivating question. All motivating questions will be in this format. Not a huge fan of the format, but at least it's simple and consistent. Maybe I'll change it. What do you think about it? </h5>
   </div>
   <div class = "box">
     <h4>More Filler Text</h4>
@@ -59,18 +59,22 @@
     </button>
   </div>
 
+  <!-- TODO: 
+    * clean this up ... can I put answers in the HTML and then iterate through?
+    * make blank ones stay white -->
+
   <ol class = "problems">
-    <li id = "1"> \(1+4=\) <input id="Q1" type="number" class = "answer-box"/></li>
-    <li id = "2"> \(2-4=\) <input id="Q2" type="number" class = "answer-box"/></li>
-    <li id = "3"> \(5+6=\) <input id="Q3" type="number" class = "answer-box"/></li>
-    <li id = "4"> \(7-2=\) <input id="Q4" type="number" class = "answer-box"/></li>
-    <li id = "5"> \(4+3=\) <input id="Q5" type="number" class = "answer-box"/></li>
-    <li id = "6"> \(8-1=\) <input id="Q6" type="number" class = "answer-box"/></li>
-    <li id = "7"> \(12+13=\) <input id="Q7" type="number" class = "answer-box"/></li>
-    <li id = "8"> \(14-7=\) <input id="Q8" type="number" class = "answer-box"/></li>
-    <li id = "9"> \(16+8=\) <input id="Q9" type="number" class = "answer-box"/></li>
-    <li id = "10"> \(12+4=\) <input id="Q10" type="number" class = "answer-box"/></li>
-    <li id = "11"> \(-2+3=\) <input id="Q11" type="number" class = "answer-box"/></li>
+    <li id = "1"> \(1+4=\) <input id="Q1" class = "answer-box"/></li>
+    <li id = "2"> \(2-4=\) <input id="Q2" class = "answer-box"/></li>
+    <li id = "3"> \(5+6=\) <input id="Q3" class = "answer-box"/></li>
+    <li id = "4"> \(7-2=\) <input id="Q4" class = "answer-box"/></li>
+    <li id = "5"> \(4+3=\) <input id="Q5" class = "answer-box"/></li>
+    <li id = "6"> \(8-1=\) <input id="Q6" class = "answer-box"/></li>
+    <li id = "7"> \(12+13=\) <input id="Q7" class = "answer-box"/></li>
+    <li id = "8"> \(14-7=\) <input id="Q8" class = "answer-box"/></li>
+    <li id = "9"> \(16+8=\) <input id="Q9" class = "answer-box"/></li>
+    <li id = "10"> \(12+4=\) <input id="Q10" class = "answer-box"/></li>
+    <li id = "11"> \(-2+3=\) <input id="Q11" class = "answer-box"/></li>
   </ol>
   <p id="demo"></p>
 
@@ -93,24 +97,207 @@
           document.getElementById(numStr).style.backgroundColor = "#FF7F7F";
         }     
       }
-      
     }
-    </script>
+  </script>
+
+  <script>
+    function setInputFilter(textbox, inputFilter) {
+  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+    textbox.addEventListener(event, function() {
+      if (inputFilter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = "";
+      }
+      });
+    });
+  }
+
+  boxes = document.getElementsByClassName("answer-box");
+  var i;
+  for (i = 0; i < boxes.length; i++) {
+    setInputFilter(boxes[i], function(value) {return /^-?\d*$/.test(value);});
+  }
+  </script>
+
+  
 
   <div class = "box">
     <h4>Even More Filler Text</h4>
     <p> Donec tincidunt, nibh eu sollicitudin rutrum, arcu lectus venenatis elit, vel molestie sem lacus eget urna. Fusce quis metus sapien. Vestibulum eget sapien vestibulum, pharetra lorem porttitor, feugiat nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur faucibus, neque ut rhoncus maximus, lectus massa sodales mi, in feugiat libero est at dolor. Duis aliquet dignissim auctor. Maecenas facilisis, ex non tincidunt consectetur, massa nibh maximus dui, non lacinia neque enim id nulla. Mauris sed eros sit amet tortor faucibus scelerisque et in dui. Aenean commodo dolor eu nulla luctus malesuada. In venenatis elit ac ligula consequat hendrerit. Sed tincidunt lectus in ipsum euismod, aliquam finibus lacus maximus. Curabitur sapien augue, vestibulum eget est eu, volutpat condimentum risus. Fusce magna augue, interdum ut nulla vel, interdum aliquet diam. </p>
   </div>
 
-  <label>Test One</label>
-  <input type = "number"/>
-  <!-- Test two is winner!! -->
-  <label>Test Two</label>
-  <input type="number" pattern="\d*"/>
-  <label>Test Three</label>
-  <input type="tel"/>
-  <label>Test Four</label>
-  <input type="text" style="-wap-input-format: 'N'"/>
+<div class = "box">
+  <input id="num1" class = "answer-box" onchange="set1()"/>
+<div id="test-svg">
+
+<script>
+  setInputFilter(document.getElementById("num1"), function(value) {return /^-?\d*$/.test(value);});
+</script>
+
+  </div>
+  <div>
+  <button onclick="button1()" style=margin-bottom:50px>
+    button1
+  </button>
+  <button onclick="button2()" style=margin-bottom:0px>
+    button2
+  </button>
+  <button onclick="button3()" style=margin-bottom:0px>
+    button3
+  </button>
+  <button onclick="button4()" style=margin-bottom:0px>
+    button4
+  </button>
+  </div>
+</div>
+
+<style>
+  .black{fill: #000;}
+  .red{fill: #f00;}
+  .blue{fill: #00f;}
+</style>
+
+<script>
+      class Collection {
+        //blank:
+        constructor(svg) {
+            this.svg = svg;
+            this.numCirc = 0;
+            this.g = document.createElementNS(svgns, 'g');
+            svg.appendChild(this.g);
+            this.list = [];
+            this.dx = 50;
+            this.dy = 250;
+            this.color = 'black';
+        }
+        translate() {
+            var tranStr = 'translate(' + this.dx + ',' + this.dy + ')';
+            (this.g).setAttributeNS(null, 'transform', tranStr);
+        }
+        addOne() {
+            this.drawCircle(0, 0, 0);
+            this.update();
+        }
+        update() {
+            var spacing = 50;
+            var dUp = Math.floor(this.list.length/5)*spacing/2;
+            var i;
+            for (i = 0; i < this.list.length; i++) {
+                this.setCircle(this.list[i], (i%5)*spacing, Math.floor(i/5)*spacing-dUp, 20);
+                this.list[i].setAttributeNS(null, 'class', this.color);
+            }
+        }
+        subOne() {
+            (this.g).removeChild(this.list.pop());
+            this.update();
+        }
+        drawCircle(x, y, r) {
+            var circ = document.createElementNS(svgns, 'circle');
+            circ.setAttributeNS(null, 'cx', x);
+            circ.setAttributeNS(null, 'cy', y);
+            circ.setAttributeNS(null, 'r', r);
+            circ.setAttributeNS(null, 'class', 'black');
+            this.list.push(circ);
+            (this.g).appendChild(circ);
+        }
+        setCircle(circ, x, y, r) {
+            circ.setAttributeNS(null, 'cx', x);
+            circ.setAttributeNS(null, 'cy', y);
+            circ.setAttributeNS(null, 'r', r);
+            circ.setAttributeNS(null, 'class', 'black');
+        }
+    }
+	var svgns = "http://www.w3.org/2000/svg",
+		svg = document.createElementNS(svgns, "svg"),
+        width = 1000,
+        height = 500;
+    svg.setAttributeNS(null, 'width', '100%');
+    var width = svg.clientWidth;
+    svg.setAttributeNS(null, 'height', 10);
+    svg.setAttributeNS(null, 'viewBox', '0 0 1000 500');
+	  document.getElementById("test-svg").appendChild(svg);
+    svg.setAttributeNS(null, 'height', svg.clientWidth/2);
+    console.log("width: " + svg.clientWidth);
+    console.log("height: " + svg.clientHeight);
+   
+    let col1 = new Collection(svg);
+    col1.color = "blue";
+    col1.translate();
+
+    let col2 = new Collection(svg);
+    col2.color = "red";
+    col2.dx = 370;
+    col2.dy = 250;
+    col2.translate();
+
+    let col3 = new Collection(svg);
+    col3.dx = 700;
+    col3.dy = 250;
+    col3.translate();
+
+    function button1() {
+        col1.addOne();
+        col3.addOne();
+        sumUpdate();
+    }
+    function button2() {
+        col1.subOne();
+        col3.subOne();
+        sumUpdate();
+    }
+    function button3() {
+        col2.addOne();
+        col3.addOne();
+        sumUpdate();
+    }
+    function button4() {
+        col2.subOne();
+        col3.subOne();
+        sumUpdate();
+    }
+    function set1() {
+      setNum(col1,document.getElementById("num1").value);
+    }
+    function setNum(col, num) {
+      console.log("here1");
+      console.log(col.list.length);
+      console.log(num);
+      if (col.list.length == num) {console.log("hello?");}
+      if (col.list.length < num) {
+        col.addOne();
+        setNum(col,num);
+        console.log("here2");
+      }
+      if (col.list.length > num) {
+        col.subOne();
+        setNum(col,num);
+      }
+    }
+
+    function sumUpdate() {
+        var spacing = 50;
+        var dUp = Math.floor(col3.list.length/5)*spacing/2;
+        var i;
+        for (i = 0; i < col1.list.length+col2.list.length; i++) {
+            col3.setCircle(col3.list[i], (i%5)*spacing, Math.floor(i/5)*spacing-dUp, 20);
+            if (i < col1.list.length) {
+                console.log("blue?");
+                col3.list[i].setAttributeNS(null, 'class', 'blue');
+            }
+            else { 
+                console.log("red?");
+                col3.list[i].setAttributeNS(null, 'class', 'red');
+            }
+        }
+    }
+</script>
+
 </div>
 
 </body>

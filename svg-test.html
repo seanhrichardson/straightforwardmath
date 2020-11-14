@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>SVG Test</title>
+		<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			width:100%;
+		}
+        .black{fill: #000;}
+        .red{fill: #f00;}
+        .blue{fill: #00f;}
+		</style>
+	</head>
+	<body >
+        <button onclick="button1()" style=margin-bottom:0px>
+            button1
+        </button>
+        <button onclick="button2()" style=margin-bottom:0px>
+            button2
+        </button>
+        <button onclick="button3()" style=margin-bottom:0px>
+            button3
+        </button>
+        <button onclick="button4()" style=margin-bottom:0px>
+            button4
+        </button>
+	</body>
+</html>
+
+<script>
+
+    class Collection {
+        //blank:
+        constructor(svg) {
+            this.svg = svg;
+            this.numCirc = 0;
+            this.g = document.createElementNS(svgns, 'g');
+            svg.appendChild(this.g);
+            this.list = [];
+            this.dx = 50;
+            this.dy = 250;
+            this.color = 'black';
+        }
+        translate() {
+            var tranStr = 'translate(' + this.dx + ',' + this.dy + ')';
+            (this.g).setAttributeNS(null, 'transform', tranStr);
+        }
+        addOne() {
+            this.drawCircle(0, 0, 0);
+            this.update();
+        }
+        update() {
+            var spacing = 50;
+            var dUp = Math.floor(this.list.length/5)*spacing/2;
+            var i;
+            for (i = 0; i < this.list.length; i++) {
+                this.setCircle(this.list[i], (i%5)*spacing, Math.floor(i/5)*spacing-dUp, 20);
+                this.list[i].setAttributeNS(null, 'class', this.color);
+            }
+        }
+        subOne() {
+            (this.g).removeChild(this.list.pop());
+            this.update();
+        }
+        drawCircle(x, y, r) {
+            var circ = document.createElementNS(svgns, 'circle');
+            circ.setAttributeNS(null, 'cx', x);
+            circ.setAttributeNS(null, 'cy', y);
+            circ.setAttributeNS(null, 'r', r);
+            circ.setAttributeNS(null, 'class', 'black');
+            this.list.push(circ);
+            (this.g).appendChild(circ);
+        }
+        setCircle(circ, x, y, r) {
+            circ.setAttributeNS(null, 'cx', x);
+            circ.setAttributeNS(null, 'cy', y);
+            circ.setAttributeNS(null, 'r', r);
+            circ.setAttributeNS(null, 'class', 'black');
+        }
+    }
+	var svgns = "http://www.w3.org/2000/svg",
+		svg = document.createElementNS(svgns, "svg"),
+        width = 1000,
+        height = 500;
+    svg.setAttributeNS(null, 'width', '100%');
+    var width = svg.clientWidth;
+    svg.setAttributeNS(null, 'height', 10);
+    svg.setAttributeNS(null, 'style', 'border: 2px solid #000;');
+    svg.setAttributeNS(null, 'viewBox', '0 0 1000 500');
+	document.body.appendChild(svg);
+    svg.setAttributeNS(null, 'height', svg.clientWidth/2);
+    console.log("width: " + svg.clientWidth);
+    console.log("height: " + svg.clientHeight);
+   
+    let col1 = new Collection(svg);
+    col1.color = "blue";
+    col1.translate();
+
+    let col2 = new Collection(svg);
+    col2.color = "red";
+    col2.dx = 370;
+    col2.dy = 250;
+    col2.translate();
+
+    let col3 = new Collection(svg);
+    col3.dx = 700;
+    col3.dy = 250;
+    col3.translate();
+
+    function button1() {
+        col1.addOne();
+        col3.addOne();
+        sumUpdate();
+    }
+    function button2() {
+        col1.subOne();
+        col3.subOne();
+        sumUpdate();
+    }
+    function button3() {
+        col2.addOne();
+        col3.addOne();
+        sumUpdate();
+    }
+    function button4() {
+        col2.subOne();
+        col3.subOne();
+        sumUpdate();
+    }
+    function sumUpdate() {
+        var spacing = 50;
+        var dUp = Math.floor(col3.list.length/5)*spacing/2;
+        var i;
+        for (i = 0; i < col1.list.length+col2.list.length; i++) {
+            col3.setCircle(col3.list[i], (i%5)*spacing, Math.floor(i/5)*spacing-dUp, 20);
+            if (i < col1.list.length) {
+                console.log("blue?");
+                col3.list[i].setAttributeNS(null, 'class', 'blue');
+            }
+            else { 
+                console.log("red?");
+                col3.list[i].setAttributeNS(null, 'class', 'red');
+            }
+        }
+    }
+</script>
