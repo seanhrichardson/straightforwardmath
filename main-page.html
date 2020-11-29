@@ -1,0 +1,158 @@
+<!-- TODO:
+  - Change font size with screen size
+  - introduce notes feature and access
+  - organize code / prepare for adding content
+  - create interactive image
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Info-->
+  <meta charset="utf-8">
+  <title>Straightforward Math</title>
+  <meta name="description" content="">
+  <meta name="Sean Richardson" content="">
+
+  <!-- Mobile Adjustments -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- JavaScript-->
+    <!--Custom-->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <meta http-equiv="refresh" content="7; url='https://www.straightforwardmath/nice-test'" />
+
+</head>
+<body>
+
+<div class="container">
+  <div class = "box">
+    <h1 style = text-align:center;margin-bottom:0cm> Straightforward Math </h1>
+  </div>
+  <div class = "menu">
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Testing Page</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm1" onclick="toggleHidden('1')" class="hover">+</h4>
+      </div>
+      <div id="hidden1" style=display:none;>
+        This page is used to test new features and layouts. There isn't actually any content in here... you could click on it if you want to, but there isn't really any point.
+      </div>
+    </div>
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Arithmetic</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm2" onclick="toggleHidden('2')" class="hover">+</h4>
+      </div>
+      <div id="hidden2" style=display:none;>
+        TODO: add an actual description in here. This will probably be easier to do once I have more of a plan.
+      </div>
+    </div>
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Algebra</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm3" onclick="toggleHidden('3')" class="hover">+</h4>
+      </div>
+      <div id="hidden3" style=display:none;>
+        TODO: add an actual description in here. This will probably be easier to do once I have more of a plan.
+      </div>
+    </div>
+    <div class="link">
+      <div onclick="parent.location='test.html'" class="left"> 
+        <h5 style=height:40px;margin-bottom:0px; class="hover">Geometry</h5>
+      </div>
+      <div class="right">
+        <h4 style=height:40px;margin-bottom:0px;font-weight:bold; id="pm4" onclick="toggleHidden('4')" class="hover">+</h4>
+      </div>
+      <div id="hidden4" style=display:none;>
+        TODO: add an actual description in here. This will probably be easier to do once I have more of a plan.
+      </div>
+  </div>
+  <script>
+    function toggleHidden(num) {
+      div = document.getElementById("pm"+num);
+      if (div.innerHTML == "+") {
+        document.getElementById("hidden"+num).style.display = "inline-block";
+        div.innerHTML = "-";
+      }
+      else {
+        document.getElementById("hidden"+num).style.display = "none";
+        div.innerHTML = "+";
+      }
+    }
+  </script>
+  <style>
+    .left {
+      width:90%; height: 100%; /*background:red;*/ float:left;
+    }
+    .right {
+      width:10%; height: 100%; /*background:blue;*/ float:right;
+    }
+    .hover:hover {
+      color:#33C3F0;
+      cursor: pointer;
+    }
+    .vertical-center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+  </style>
+
+  <!-- TODO work on the new display -->
+  <script>
+    function displayMore(textId) {
+
+    }
+  </script>
+
+  <div class = "box">
+    <h4> About Straightforward Math </h4>
+    <p>
+      TODO: put an actual description in here. It will probably be easier to put in a description after I actually have something. For now: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis aliquet odio, sit amet iaculis eros dignissim id. Nunc sit amet maximus leo. Vivamus quis cursus tortor. Nullam sed efficitur lacus, ut ultrices sapien. Donec erat mi, pharetra at accumsan et, interdum a sem. Morbi blandit ipsum vitae est accumsan suscipit. Donec ac urna ac velit tincidunt tempus. Curabitur sit amet enim dui. Ut id nisl quam. In sit amet velit laoreet, imperdiet lectus quis, sodales risus. Fusce sed pulvinar nibh, sed ultricies leo.
+    </p>
+  </div>
+
+  <div class = "footer">
+    <div class = "space">
+        test1
+    </div>
+    <div class = "space">
+        test2
+    </div>
+    <div class = "space">
+        test3
+    </div>
+  </div>
+  
+  <style>
+    .space {
+      display: inline-block;
+      display: -moz-inline-box;
+      width: 32%;
+    }
+  </style>
+
+</div>
+
+</body>
+</html>

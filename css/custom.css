@@ -4,8 +4,22 @@
   --wrong-color: #FF7F7F;
 }
 
+.black{fill: #000;}
+.red{fill: #f00;}
+.blue{fill: #00f;}
+
 menu {
   column-count: 3;
+}
+
+a {
+  color: #222;
+  cursor: pointer;
+  text-decoration: none
+}
+
+a.active {
+  color: #33C3F0;
 }
 
 body {
