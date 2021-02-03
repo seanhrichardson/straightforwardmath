@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <!-- <script type="text/javascript" src=""></script> -->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<style>
+    .numline {
+        stroke:red;
+        stroke-width:5
+    }
+    .tick {
+        stroke:purple;
+        stroke-width:2
+    }
+    .draggable {
+        cursor: move;
+    }
+    .arrowhead {
+        fill:blue;
+        stroke:blue;
+        stroke-width:1
+    }
+    .hidebox {
+        fill: white;
+    }
+</style>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox">
+            <div id = "number-line"></div>
+        </div>
+    </div>
+</body>
+
+<script>
+    //INITIALIZATION:
+    //NOTE: this method of initialization will not update for screen-resize. Fix?
+    var svgns = "http://www.w3.org/2000/svg",
+		svg = document.createElementNS(svgns, "svg"),
+        width = 1000,
+        height = 500;
+        svg.setAttributeNS(null, 'width', '100%');
+    var width = svg.clientWidth;
+    svg.setAttributeNS(null, 'height', 10);
+    svg.setAttributeNS(null, 'viewBox', '0 0 1000 500');
+	document.getElementById("number-line").appendChild(svg);
+    svg.setAttributeNS(null, 'height', svg.clientWidth/2);
+    //svg.setAttributeNS(null, 'style', 'background-color:green');
+    console.log("width: " + svg.clientWidth);
+    console.log("height: " + svg.clientHeight);
+
+    // ----- NUMBER-LINE ----
+    var center = [500, 100];
+    var distTicks = 30;
+    var magTicks = 50;
+    var ticks = [];
+
+    function makeNumberLine(x1,x2,y,numTicks,distTicks, svg) {
+        var arrowFrac = 0.02;
+        var length = x2-x1; //mag?
+
+        var g = document.createElementNS(svgns, 'g');
+        g.setAttributeNS(null, 'class', 'draggable');
+        svg.appendChild(g);
+
+        var hideHeight = 60;//
+        var rectL = document.createElementNS(svgns, 'rect');
+        rectL.setAttributeNS(null, 'x', 0);
+        rectL.setAttributeNS(null, 'y', y-hideHeight/2);
+        rectL.setAttributeNS(null, 'height', hideHeight);
+        rectL.setAttributeNS(null, 'width', x1+arrowFrac*length);
+        rectL.setAttributeNS(null, 'class', 'hidebox');
+        svg.appendChild(rectL);
+
+        var rectR = document.createElementNS(svgns, 'rect');
+        rectR.setAttributeNS(null, 'x', x2-arrowFrac*length);
+        rectR.setAttributeNS(null, 'y', y-hideHeight/2);
+        rectR.setAttributeNS(null, 'height', hideHeight);
+        rectR.setAttributeNS(null, 'width', x2-arrowFrac*length);
+        rectR.setAttributeNS(null, 'class', 'hidebox');
+        svg.appendChild(rectR);
+
+        var grabHeight = 40;//
+        var rectGrab = document.createElementNS(svgns, 'rect');
+        rectGrab.setAttributeNS(null, 'x', (x1+x2)/2-magTicks*distTicks);
+        rectGrab.setAttributeNS(null, 'y', y-grabHeight);
+        rectGrab.setAttributeNS(null, 'height', grabHeight*2);
+        rectGrab.setAttributeNS(null, 'width', 2*magTicks*distTicks);
+        rectGrab.setAttributeNS(null, 'class', 'hidebox draggable');
+        g.appendChild(rectGrab);
+
+        var line = document.createElementNS(svgns, 'line');
+        line.setAttributeNS(null, 'x1', (x1+x2)/2-magTicks*distTicks);
+        line.setAttributeNS(null, 'y1', y);
+        line.setAttributeNS(null, 'x2', (x1+x2)/2+magTicks*distTicks);
+        line.setAttributeNS(null, 'y2', y);
+        line.setAttributeNS(null, 'class', 'numline draggable');
+        g.appendChild(line);
+
+        var i;
+        for (i = -1*magTicks; i <= magTicks; i++) {
+            var tick = document.createElementNS(svgns, 'line');
+            tick.setAttributeNS(null, 'x1', (x1+x2)/2+i*distTicks);
+            tick.setAttributeNS(null, 'y1', y-10);
+            tick.setAttributeNS(null, 'x2', (x1+x2)/2+i*distTicks);
+            tick.setAttributeNS(null, 'y2', y+10);
+            tick.setAttributeNS(null, 'class', 'tick draggable');
+            g.appendChild(tick);
+            ticks.push(tick);
+            //--------
+            //TODO: update so that text is centered at tick-marks.
+            var text = document.createElementNS(svgns,'text');
+            text.setAttributeNS(null,"x",(x1+x2)/2+i*distTicks-5);     
+            text.setAttributeNS(null,"y",y+25); 
+            var num = document.createTextNode(i);
+            text.appendChild(num);
+            g.appendChild(text);
+        }
+        var arrowHeight = 15;
+        var arrowL = document.createElementNS(svgns, 'polygon');
+        strL = (x1+","+y) + " " + ((x1+length*arrowFrac)+","+(y+arrowHeight)) + " " + ((x1+length*arrowFrac)+","+(y-arrowHeight));
+        arrowL.setAttributeNS(null, 'points', strL);
+        arrowL.setAttributeNS(null, 'class', 'arrowhead');
+        svg.appendChild(arrowL);
+
+        var arrowR = document.createElementNS(svgns, 'polygon');
+        strR = (x2+","+y) + " " + ((x2-length*arrowFrac)+","+(y+arrowHeight)) + " " + ((x2-length*arrowFrac)+","+(y-arrowHeight));
+        arrowR.setAttributeNS(null, 'points', strR);
+        arrowR.setAttributeNS(null, 'class', 'arrowhead');
+        svg.appendChild(arrowR);
+
+        return g;
+    }
+    var g2 = makeNumberLine(0,1000,100,50,distTicks,svg);
+    var g2 = makeNumberLine(0,1000,300,50,distTicks,svg);
+    makeDraggableX(svg, g2);
+    
+//TODO: SUPPORT MOBILE
+
+    function makeDraggableX(svg, obj) {
+        svg.addEventListener('mousedown', startDrag);
+        svg.addEventListener('mousemove', drag);
+        svg.addEventListener('mouseup', endDrag);
+        svg.addEventListener('mouseleave', endDrag);
+        var selectedElement, offset;
+
+        function getMousePosition(evt) {
+            var CTM = svg.getScreenCTM();
+            return {
+                x: (evt.clientX - CTM.e) / CTM.a,
+                y: (evt.clientY - CTM.f) / CTM.d
+            };
+        }
+
+        function startDrag(evt) {
+            console.log("here1");
+            if (evt.target.parentNode.classList.contains('draggable')) {
+                console.log("here2");
+                selectedElement = evt.target.parentNode;
+                offset = getMousePosition(evt);
+                // Get all the transforms currently on this element
+                var transforms = selectedElement.transform.baseVal;
+                // Ensure the first transform is a translate transform
+                if (transforms.length === 0 ||
+                    transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+                    // Create an transform that translates by (0, 0)
+                    var translate = svg.createSVGTransform();
+                    translate.setTranslate(0, 0);
+                    // Add the translation to the front of the transforms list
+                    selectedElement.transform.baseVal.insertItemBefore(translate, 0);
+                }
+                // Get initial translation amount
+                transform = transforms.getItem(0);
+                offset.x -= transform.matrix.e;
+                offset.y -= transform.matrix.f;
+            }
+        }
+
+        function drag(evt) {
+            if (selectedElement) {
+                evt.preventDefault();
+                var coord = getMousePosition(evt);
+                transform.setTranslate(coord.x - offset.x, 0);
+            }
+        }
+
+        function endDrag(evt) {
+            if (selectedElement) {
+                //note: this code uses distTicks: specific for numberline.
+                var transforms = selectedElement.transform.baseVal;
+                transform = transforms.getItem(0);
+                transform.setTranslate(distTicks*Math.round((transform.matrix.e)/distTicks), 0);
+                //the following is all that is needed in general.
+                selectedElement = null;
+            }
+           
+        }
+    }
+
+    // function makeDraggable(svg, obj) {
+    //     svg.addEventListener('mousedown', startDrag);
+    //     svg.addEventListener('mousemove', drag);
+    //     svg.addEventListener('mouseup', endDrag);
+    //     svg.addEventListener('mouseleave', endDrag);
+    //     var selectedElement, offset;
+
+    //     function getMousePosition(evt) {
+    //         var CTM = svg.getScreenCTM();
+    //         return {
+    //             x: (evt.clientX - CTM.e) / CTM.a,
+    //             y: (evt.clientY - CTM.f) / CTM.d
+    //         };
+    //     }
+
+    //     function startDrag(evt) {
+    //         if (evt.target.parentNode.classList.contains('draggable')) {
+    //             selectedElement = evt.target.parentNode;
+    //             offset = getMousePosition(evt);
+    //             // Get all the transforms currently on this element
+    //             var transforms = selectedElement.transform.baseVal;
+    //             // Ensure the first transform is a translate transform
+    //             if (transforms.length === 0 ||
+    //                 transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
+    //             // Create an transform that translates by (0, 0)
+    //             var translate = svg.createSVGTransform();
+    //             translate.setTranslate(0, 0);
+    //             // Add the translation to the front of the transforms list
+    //             selectedElement.transform.baseVal.insertItemBefore(translate, 0);
+    //             }
+    //             // Get initial translation amount
+    //             transform = transforms.getItem(0);
+    //             offset.x -= transform.matrix.e;
+    //             offset.y -= transform.matrix.f;
+    //         }
+    //     }
+
+    //     function drag(evt) {
+    //         if (selectedElement) {
+    //             evt.preventDefault();
+    //             var coord = getMousePosition(evt);
+    //             transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
+    //         }
+    //     }
+
+    //     function endDrag(evt) {
+    //         selectedElement = null;
+    //     }
+    // }
+
+</script>
+
+<!-- Notes:
+    onload="[javascript]" seems helpful
+-->

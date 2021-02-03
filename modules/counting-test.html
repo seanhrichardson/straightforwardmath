@@ -1,0 +1,134 @@
+<!--
+TODO:
+- generalize the rectangle counting visual to handle an arbitrary side ratio.
+- generate rational approximations for rectangel visual.
+- allow for generalization of shape/color/positive-negative/etc. that we are using... passing a function?
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <script src="counting-fit.js"></script>
+    <script src="counting-factorization.js"></script>
+    <script src="counting-base10.js"></script>
+    <script src="shapes.js"></script>
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<style>
+    
+</style>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="buttons">
+            <button onclick="plus()">Add 1</button>
+            <button onclick="min()">Subtract 1</button>
+            <span id="number"></span>
+            <button onClick ="apply('in')" style="float:right;">Apply</button>
+            <input id="in" style="float:right;height:30px;"/>
+        </div>
+        <div class = "sharpbox" id="counting-fit"></div>
+        <div class = "sharpbox" id="counting-factorization"></div>
+        <div class = "sharpbox" id="counting-base10"></div>
+    </div>
+</body>
+<!-- GENERAL: -->
+<script>
+var SIZE = 500;
+var WIDTH = 1000;
+var HEIGHT = 500;
+var number = 1;
+var circs1 = [];
+var circs2 = [];
+var circs3 = [];
+var shapeDetails = shapeFunction("circle","green");
+
+
+const svg1 = d3.select("#counting-fit")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+
+const svg2 = d3.select("#counting-factorization")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+const svg3 = d3.select("#counting-base10")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+function apply(inputStr) {
+    number = Number(document.getElementById(inputStr).value);
+    document.getElementById("number").innerHTML = "testing!";
+    set(number);
+}
+function set(x) {
+    number = x;
+    if (number < 1) {number = 1;}
+    make1(number);
+    make2(number);
+    make3(number);
+}
+function plus(){
+    number++;
+    if (number < 1) {number = 1;}
+    make1(number);
+    make2(number);
+    make3(number);
+}
+function min() {
+    number--;
+    if (number < 1) {number = 1;}
+    make1(number);
+    make2(number);
+    make3(number);
+}
+
+set(1);
+
+//COUNTING-FIT:
+function make1(number) {
+    countingFit(svg1, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, number, circs1, shapeDetails);
+}
+
+//COUNTING-FACTORIZATION:
+function make2(number) {
+    countingFactorization(svg2, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, number, circs2, shapeDetails);
+}
+
+//COUNTING-BASE10:
+function make3(number) {
+    countingBase10(svg3, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, number, circs3, shapeDetails);
+}
+
+//COUNTING-NUMBERLINE:
+
+</script>

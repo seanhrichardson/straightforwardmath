@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <!-- <script type="text/javascript" src=""></script> -->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<style>
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+</style>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="buttons">
+            <button onclick="plus()">Add 1</button>
+            <button onclick="min()">Subtract 1</button>
+            <span>Number:</span>
+            <span id="num-display">1</span>
+            <button onClick ="apply('in')" style="float:right;">Apply</button>
+            <input id="in" style="float:right;height:30px;"/>
+        </div>
+        <div class = "sharpbox" id="s"></div>
+    </div>
+</body>
+
+
+<!-- TODO: TIGHTEN UP SPACING -->
+<script>
+var SIZE = 500;
+
+var width = 500;
+var height = 500;
+
+const svg = d3.select("#s")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+var circs = [];
+
+var num = 1;
+make(num, SIZE);
+
+function apply(inputStr) {
+    num = document.getElementById(inputStr).value;
+    set(Number(num));
+}
+
+function plus() {
+    set(++num);
+}
+
+function min() {
+    set(--num);
+}
+
+function set(x) {
+    num = x;
+    make(num, SIZE);
+    document.getElementById("num-display").value = num;
+    console.log(document.getElementById("num-display"));
+}
+
+function make(number, SIZE) {
+    //normalize circs:
+    if (number < circs.length) {
+        var i;
+        for (i = number; i < circs.length; i++) {
+            circs[i].remove();
+        }
+        circs.splice(number);
+    }
+    else if (number > circs.length) {
+        for (i = circs.length; i < number; i++) {
+            var circle = svg.append("circle")
+                .attr("cx",SIZE / 2)
+                .attr("cy",SIZE / 2)
+                .attr("r",0)
+                .attr("fill","black");
+                circs.push(circle);
+        }
+    }
+    else {}
+
+    var dotCount = 0;
+
+    var list = primeFactorList(number);
+
+    function dot(x, y, size) {
+        circs[dotCount].transition()
+            .ease(d3.easeLinear)
+            .duration(1000)
+            .attr("cx",x)
+            .attr("cy",y)
+            .attr("r",size)
+            .attr("fill","black");
+        dotCount += 1;
+    }
+        
+    function polygon(n, depth, size, x, y, f) {
+        var step = 2 * Math.PI / n;
+        var init = n === 2 ? Math.PI
+                 : n === 4 ? Math.PI / 4
+                           : 3 * Math.PI / 2;
+        var dot_radius = (2 * size) / (n + 2);
+        var radius = (n * size) / (n + 2);
+        var delta_y = n % 2 === 0 ? 0 
+                    : (radius / 2) * (1 - Math.cos(Math.PI / n));
+        
+        for (var i = 0; i < n; ++i) {
+            f(
+                x + Math.cos(init + step * i) * radius,
+                y + Math.sin(init + step * i) * radius + delta_y,
+                dot_radius
+            );
+        }
+    }
+    
+    function draw(x, y, size, depth) {
+        if (depth < 0) {
+            dot(x, y, 0.75 * size);
+        } else {
+            polygon(list[depth], depth, size, x, y, function (x, y, size) {
+                draw(x, y, size, depth - 1);            
+            });
+        }
+    }
+    draw(SIZE / 2, SIZE / 2, SIZE / 2, list.length - 1);
+}
+
+// http://nayuki.eigenstate.org/res/calculate-prime-factorization-javascript.js
+
+function primeFactorList(n) {
+    if (n < 1)
+        throw "Argument error";
+    
+    var result = [];
+    while (n != 1) {
+        var factor = smallestFactor(n);
+        result.push(factor);
+        n /= factor;
+    }
+    return result;
+}
+
+function smallestFactor(n) {
+    if (n < 2)
+        throw "Argument error";
+    if (n % 4 == 0)
+        return 4; // vjeux hack
+    if (n % 2 == 0)
+        return 2;
+    var end = Math.floor(Math.sqrt(n));
+    for (var i = 3; i <= end; i += 2) {
+        if (n % i == 0)
+            return i;
+    }
+    return n;
+}
+</script>

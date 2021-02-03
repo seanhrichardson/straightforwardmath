@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <!-- <script type="text/javascript" src=""></script> -->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<style>
+    
+</style>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="buttons">
+            <button onclick="plus()">Add 1</button>
+            <button onclick="min()">Subtract 1</button>
+            <button onClick ="apply('in')" style="float:right;">Apply</button>
+            <input id="in" style="float:right;height:30px;"/>
+        </div>
+        <div class = "sharpbox" id="s"></div>
+    </div>
+</body>
+
+
+<!--- TODO: MAKE THINGS MORE CENTERED?-->
+<script>
+var SIZE = 500;
+
+var WIDTH = 1000;
+var HEIGHT = 500;
+
+const svg = d3.select("#s")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+var circs = [];
+
+var calls = 0;
+
+var num = 1;
+make(num, SIZE);
+
+function apply(inputStr) {
+    num = document.getElementById(inputStr).value;
+    set(Number(num));
+}
+
+function plus() {
+    make(++num, SIZE);
+}
+
+function min() {
+    make(--num, SIZE);
+}
+
+function set(x) {
+    num = x;
+    make(num, SIZE);
+}
+
+function make(number, SIZE) {
+    calls = 0;
+    //normalize circs:
+    if (number < circs.length) {
+        var i;
+        for (i = number; i < circs.length; i++) {
+            circs[i].remove();
+        }
+        circs.splice(number);
+    }
+    else if (number > circs.length) {
+        for (i = circs.length; i < number; i++) {
+            var circle = svg.append("circle")
+                .attr("cx", SIZE / 2)
+                .attr("cy", SIZE / 2)
+                .attr("r",0)
+                .attr("fill","black");
+                circs.push(circle);
+        }
+    }
+    else {}
+
+    var dotCount = 0;
+
+    function dot(x, y, size) {
+        circs[dotCount].transition()
+            .ease(d3.easeLinear)
+            .duration(1000)
+            .attr("cx",x)
+            .attr("cy",y)
+            .attr("r",size)
+            .attr("fill","black");
+        dotCount += 1;
+    }
+    
+    //(x,y): center of square. SIZE: side-length
+    function draw(x, y, width, height, number, exp) {
+        var i,j;
+        var vert, horiz;
+        exp%2 == 0 ? horiz = 2 : horiz = 5;
+        exp%2 == 0 ? vert = 5 : vert = 2;
+        var spacingX = width/horiz;
+        var spacingY = height/vert;
+        var x0 = (x-width/2)+0.5*spacingX;
+        var y0 = (y-height/2)+0.5*spacingY;
+        //var exp = Math.floor(Math.log(number)/Math.log(10));
+        if (exp == 0) {
+            var dotRad = 0.8*0.5*Math.min(spacingX, spacingY);
+            for (i = 0; i < number; i++) {
+                calls++;
+                dot(
+                    x0+(i%2)*spacingX,
+                    y0+Math.floor(i/2)*spacingY,
+                    dotRad
+                );
+            }
+        }
+        else {
+            for (i = 0; i < Math.floor(number/10**(exp)); i++) {
+                draw(
+                    x0+(i%horiz)*spacingX,
+                    y0+Math.floor(i/horiz)*spacingY,
+                    0.8*spacingX,
+                    0.8*spacingY,
+                    10**exp,
+                    exp-1
+                );
+            }        
+        }
+        
+    }
+
+    divs = Math.floor(Math.log(number+0.5)/Math.log(10))+1;
+
+    for (i = divs-1; i >= 0; i--) {
+        draw((divs-i-0.5)*WIDTH/divs, HEIGHT/2, 0.8*WIDTH/divs, 0.8*HEIGHT, number%(10**(i+1)), i);
+    }
+
+    //draw(SIZE / 2, SIZE / 2, SIZE, SIZE, num, Math.floor(Math.log(number)/Math.log(10)));
+}
+
+</script>

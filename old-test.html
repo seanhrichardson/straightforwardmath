@@ -176,6 +176,7 @@
             this.dy = 250;
             this.color = 'black';
         }
+        
         translate() {
             var tranStr = 'translate(' + this.dx + ',' + this.dy + ')';
             (this.g).setAttributeNS(null, 'transform', tranStr);
@@ -213,7 +214,7 @@
             circ.setAttributeNS(null, 'class', 'black');
         }
     }
-	var svgns = "http://www.w3.org/2000/svg",
+	  var svgns = "http://www.w3.org/2000/svg",
 		svg = document.createElementNS(svgns, "svg"),
         width = 1000,
         height = 500;

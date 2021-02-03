@@ -216,3 +216,64 @@ ol, ul {
     columns: 1
   }
 }
+
+/*TESTING STUFF:*/
+
+ /* Dropdown Button */
+.dropbtn {
+  display: block;
+  position: relative;
+  background-color: #fff;
+  padding: 20px 20px 20px 20px;
+  border: 2px solid rgb(0, 0, 0);
+  z-index: 1;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  margin: 50px 0px 50px 0;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 999;
+}
+
+/*.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}*/
+
+
+.left {
+  width: 48%;
+  float: left;
+}
+
+.right {
+  width: 48%;
+  float: right;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  border: 2px solid rgb(0, 0, 0);
+  background-color: #fff;
+  border-top: 0;
+  padding: 0px 20px 0px 20px;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropbtn:hover {background-color: #ddd;} 

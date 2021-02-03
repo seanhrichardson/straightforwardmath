@@ -1,0 +1,401 @@
+<!--
+TODO:
+- generalize the rectangle counting visual to handle an arbitrary side ratio.
+- generate rational approximations for rectangel visual.
+- allow for generalization of shape/color/positive-negative/etc. that we are using... passing a function?
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <!-- <script type="text/javascript" src=""></script> -->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<style>
+    
+</style>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="buttons">
+            <button onclick="plus()">Add 1</button>
+            <button onclick="min()">Subtract 1</button>
+            <span id="number"></span>
+            <button onClick ="apply('in')" style="float:right;">Apply</button>
+            <input id="in" style="float:right;height:30px;"/>
+        </div>
+        <div class = "sharpbox" id="counting-fit"></div>
+        <div class = "sharpbox" id="counting-factorization"></div>
+        <div class = "sharpbox" id="counting-base10"></div>
+    </div>
+</body>
+<!-- GENERAL: -->
+<script>
+var SIZE = 500;
+var WIDTH = 1000;
+var HEIGHT = 500;
+var number = 1;
+var circs1 = [];
+var circs2 = [];
+var circs3 = [];
+
+const svg1 = d3.select("#counting-fit")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+
+const svg2 = d3.select("#counting-factorization")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+const svg3 = d3.select("#counting-base10")
+    .append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+function apply(inputStr) {
+    number = Number(document.getElementById(inputStr).value);
+    document.getElementById("number").innerHTML = "testing!";
+    set(number);
+}
+function set(x) {
+    number = x;
+    make1(number,WIDTH,HEIGHT);
+    make2(number);
+    make3(number);
+}
+function plus(){
+    number++;
+    make1(number,WIDTH,HEIGHT);
+    make2(number);
+    make3(number);
+}
+function min() {
+    number--;
+    make1(number,WIDTH,HEIGHT);
+    make2(number);
+    make3(number);
+}
+
+set(1);
+
+
+//COUNTING-FIT:
+//ratio: width/height.
+//generalize further so that it makes small rational approximaitions for arbitrary ratio. For now, assume ratio is integer.
+function make1(number, width, height) {
+    //normalize circs:
+    if (number < circs1.length) {
+        var i;
+        for (i = number; i < circs1.length; i++) {
+            circs1[i].remove();
+        }
+        circs1.splice(number);
+    }
+    else if (number > circs1.length) {
+        for (i = circs1.length; i < number; i++) {
+            var circle = svg1.append("circle")
+                .attr("cx", width/2)
+                .attr("cy", height/2)
+                .attr("r",0)
+                .attr("fill","black");
+                circs1.push(circle);
+        }
+    }
+    else {}
+
+    var dotCount = 0;
+
+    function dot(x, y, size) {
+        circs1[dotCount].transition()
+            .ease(d3.easeLinear)
+            .duration(1000)
+            .attr("cx",x)
+            .attr("cy",y)
+            .attr("r",size)
+            .attr("fill","black");
+        dotCount += 1;
+    }
+
+    function spacing(width,height,m,n) {
+        var dotRad, spacingX, spacingY;
+        dotRad = 0.5*0.95*min(width/n,height/n);
+        m == 1 ? spacingX = 0 : spacingX = (width-2*dotRad)/(m-1);
+        n == 1 ? spacingY = 0 : spacingY = (height-2*dotRad)/(n-1);
+        return [dotRad, spacingX, spacingY];
+    }
+
+    function plot(x,y,width,height,m,n,mf,nf,col,i) {
+        // console.log("plotting...");
+        // console.log("i: " + i + "\tx: " + x + "\ty: " + y + "\twidth: " + width + "\theight: " + height + "\tm: " + m + "\tn: " + n + "\tmf: " + mf + "\tnf: " + nf + "\tcol: " + col) 
+        var dotRad, spacingX, spacingY, x0, y0;
+        dotRad = 0.5*0.95*Math.min(width/mf,height/nf);
+        mf == 1 ? spacingX = 0 : spacingX = (width-2*dotRad)/(mf-1);
+        nf == 1 ? spacingY = 0 : spacingY = (height-2*dotRad)/(nf-1);
+        //may need to change below to make n = 1 or m = 1 look good
+        x0 = (x-width/2)+dotRad;
+        y0 = (y-height/2)+dotRad;
+        if (col) {
+            //(m-1, (i-1)%n) location
+            dot(
+                x0+(m-1)*spacingX,
+                y0+((i-1)%n)*spacingY,
+                dotRad
+            );
+        }
+        else {
+            //((i-1)%m,n-1) location
+            dot(
+                x0+((i-1)%m)*spacingX,
+                y0+(n-1)*spacingY,
+                dotRad
+            );
+        }
+    }
+
+    function getFinal(x,y,width,height) {
+        var m = 1; var n = 1; var col = true;
+        var i;
+        for (i = 2; i <= number; i++) {
+            if (m*n < i) {
+                if (Math.min(width/(m+1),height/n) >= Math.min(width/m,height/(n+1))) { m = m+1; }
+                else { n = n+1; }
+            }
+        }
+        return [m, n];
+    }
+
+    //(x,y): center of square. SIZE: side-length
+    function draw(x, y, width, height) {
+        var finalMN = getFinal(x,y,width,height)
+        var m = 1; var n = 1; var col = true;
+        var i;
+        plot(x,y,width,height,m,n,finalMN[0],finalMN[1],col,1)
+        for (i = 2; i <= number; i++) {
+            if (m*n < i) {
+                if (Math.min(width/(m+1),height/n) >= Math.min(width/m,height/(n+1))) {
+                    m = m+1;
+                    col = true;
+                }
+                else {
+                    n = n+1;
+                    col = false;
+                }
+            }
+            plot(x,y,width,height,m,n,finalMN[0],finalMN[1],col,i)
+        }
+    }
+
+    draw(width/2, height/2, width, height);
+}
+
+//COUNTING-FACTORIZATION:
+function make2(number, SIZE) {
+    //normalize circs2:
+    if (number < circs2.length) {
+        var i;
+        for (i = number; i < circs2.length; i++) {
+            circs2[i].remove();
+        }
+        circs2.splice(number);
+    }
+    else if (number > circs2.length) {
+        for (i = circs2.length; i < number; i++) {
+            var circle = svg2.append("circle")
+                .attr("cx",WIDTH/2)
+                .attr("cy",HEIGHT/2)
+                .attr("r",0)
+                .attr("fill","black");
+                circs2.push(circle);
+        }
+    }
+    else {}
+
+    var dotCount = 0;
+
+    var list = primeFactorList(number);
+
+    function dot(x, y, size) {
+        circs2[dotCount].transition()
+            .ease(d3.easeLinear)
+            .duration(1000)
+            .attr("cx",x)
+            .attr("cy",y)
+            .attr("r",size)
+            .attr("fill","black");
+        dotCount += 1;
+    }
+        
+    function polygon(n, depth, size, x, y, f) {
+        var step = 2 * Math.PI / n;
+        var init = n === 2 ? Math.PI
+                 : n === 4 ? Math.PI / 4
+                           : 3 * Math.PI / 2;
+        var dot_radius = (2 * size) / (n + 2);
+        var radius = (n * size) / (n + 2);
+        var delta_y = n % 2 === 0 ? 0 
+                    : (radius / 2) * (1 - Math.cos(Math.PI / n));
+        
+        for (var i = 0; i < n; ++i) {
+            f(
+                x + Math.cos(init + step * i) * radius,
+                y + Math.sin(init + step * i) * radius + delta_y,
+                dot_radius
+            );
+        }
+    }
+    
+    function draw(x, y, size, depth) {
+        if (depth < 0) {
+            dot(x, y, 0.75 * size);
+        } else {
+            polygon(list[depth], depth, size, x, y, function (x, y, size) {
+                draw(x, y, size, depth - 1);            
+            });
+        }
+    }
+    draw(WIDTH / 2, HEIGHT / 2, Math.min(WIDTH,HEIGHT) / 2, list.length - 1);
+}
+
+// http://nayuki.eigenstate.org/res/calculate-prime-factorization-javascript.js
+
+function primeFactorList(n) {
+    if (n < 1)
+        throw "Argument error";
+    
+    var result = [];
+    while (n != 1) {
+        var factor = smallestFactor(n);
+        result.push(factor);
+        n /= factor;
+    }
+    return result;
+}
+
+function smallestFactor(n) {
+    if (n < 2)
+        throw "Argument error";
+    if (n % 4 == 0)
+        return 4; // vjeux hack
+    if (n % 2 == 0)
+        return 2;
+    var end = Math.floor(Math.sqrt(n));
+    for (var i = 3; i <= end; i += 2) {
+        if (n % i == 0)
+            return i;
+    }
+    return n;
+}
+
+//COUNTING-BASE10:
+function make3(number, SIZE) {
+    calls = 0;
+    //normalize circs3:
+    if (number < circs3.length) {
+        var i;
+        for (i = number; i < circs3.length; i++) {
+            circs3[i].remove();
+        }
+        circs3.splice(number);
+    }
+    else if (number > circs3.length) {
+        for (i = circs3.length; i < number; i++) {
+            var circle = svg3.append("circle")
+                .attr("cx", WIDTH / 2)
+                .attr("cy", HEIGHT / 2)
+                .attr("r",0)
+                .attr("fill","black");
+                circs3.push(circle);
+        }
+    }
+    else {}
+
+    var dotCount = 0;
+
+    function dot(x, y, size) {
+        circs3[dotCount].transition()
+            .ease(d3.easeLinear)
+            .duration(1000)
+            .attr("cx",x)
+            .attr("cy",y)
+            .attr("r",size)
+            .attr("fill","black");
+        dotCount += 1;
+    }
+    
+    //(x,y): center of square. SIZE: side-length
+    function draw(x, y, width, height, number, exp) {
+        var i,j;
+        var vert, horiz;
+        exp%2 == 0 ? horiz = 2 : horiz = 5;
+        exp%2 == 0 ? vert = 5 : vert = 2;
+        var spacingX = width/horiz;
+        var spacingY = height/vert;
+        var x0 = (x-width/2)+0.5*spacingX;
+        var y0 = (y-height/2)+0.5*spacingY;
+        //var exp = Math.floor(Math.log(number)/Math.log(10));
+        if (exp == 0) {
+            var dotRad = 0.8*0.5*Math.min(spacingX, spacingY);
+            for (i = 0; i < number; i++) {
+                calls++;
+                dot(
+                    x0+(i%2)*spacingX,
+                    y0+Math.floor(i/2)*spacingY,
+                    dotRad
+                );
+            }
+        }
+        else {
+            for (i = 0; i < Math.floor(number/10**(exp)); i++) {
+                draw(
+                    x0+(i%horiz)*spacingX,
+                    y0+Math.floor(i/horiz)*spacingY,
+                    0.8*spacingX,
+                    0.8*spacingY,
+                    10**exp,
+                    exp-1
+                );
+            }        
+        }
+        
+    }
+
+    divs = Math.floor(Math.log(number+0.5)/Math.log(10))+1;
+
+    for (i = divs-1; i >= 0; i--) {
+        draw((divs-i-0.5)*WIDTH/divs, HEIGHT/2, 0.8*WIDTH/divs, 0.8*HEIGHT, number%(10**(i+1)), i);
+    }
+
+    //draw(SIZE / 2, SIZE / 2, SIZE, SIZE, num, Math.floor(Math.log(number)/Math.log(10)));
+}
+
+//COUNTING-NUMBERLINE:
+
+</script>

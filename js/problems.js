@@ -20,7 +20,7 @@ function checkAnswers(setId) {
                 correct = (correctAnswer == inputAnswer);
             }
             else {
-                console.log("ERROR");
+                console.log("ERROR in problems.js");
             }
             if (correct) {
                 setList[i].style.backgroundColor = "#90EE90";

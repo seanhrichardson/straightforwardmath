@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Info-->
+  <meta charset="utf-8">
+  <title>Straightforward Math</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Adjustments -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/normalize.css">
+  <link rel="stylesheet" href="../css/skeleton.css">
+  <link rel="stylesheet" href="../css/custom.css">
+
+  <!-- JavaScript-->
+    <!--Custom-->
+    <script type="text/javascript" src="js/problems.js"></script>
+    <script type="text/javascript" src="js/inputfilter.js"></script>
+    <script type="text/javascript" src="js/objects.js"></script>
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class = "container">
+
+        <h2 class = "headerbox"> Filler Title about Content </h2>
+
+        <div class = "roundbox">
+            <h4>Test Page Filler Text</h4>
+            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis aliquet odio, sit amet iaculis eros dignissim id. Nunc sit amet maximus leo. Vivamus quis cursus tortor. Nullam sed efficitur lacus, ut ultrices sapien. Donec erat mi, pharetra at accumsan et, interdum a sem. Morbi blandit ipsum vitae est accumsan suscipit. Donec ac urna ac velit tincidunt tempus. Curabitur sit amet enim dui. Ut id nisl quam. In sit amet velit laoreet, imperdiet lectus quis, sodales risus. Fusce sed pulvinar nibh, sed ultricies leo. </p>
+
+            <p>\[f(a) = \frac{1}{2\pi i} \oint_{\gamma} \frac{f(z)}{z-a}dz\] </p>
+
+            <p> Pellentesque pretium nisi dolor, lobortis semper felis congue sit amet. Morbi accumsan pulvinar mattis. In aliquam ultrices iaculis. Curabitur feugiat nec ligula at rutrum. Maecenas aliquam eros et tempus auctor. Pellentesque non sapien tempor, tristique dolor quis, rutrum mauris. Suspendisse pellentesque convallis ex, eget mattis quam laoreet nec. Vivamus pellentesque volutpat porttitor. Aenean ultrices commodo tellus sed viverra. Nulla non ex at magna vehicula bibendum quis sed risus. Phasellus eu sapien eu diam vulputate placerat a et metus. Nullam ultricies vulputate venenatis. Nulla vitae nulla varius, mattis nisl sed, semper lectus. In ex augue, laoreet quis ligula eget, euismod viverra turpis. Quisque mattis elit a turpis rhoncus, sit amet imperdiet ligula ultricies. Suspendisse in laoreet purus. Inline mathematics equations such as \(e^{i \theta} = \cos(\theta) + i \sin(\theta)\) would be good to include in this filler text. </p>
+        </div>
+
+        <div class = "questionbox">
+            <h5> This is a motivating question. All motivating questions will be in this format. Not a huge fan of the format, but at least it's simple and consistent. Maybe I'll change it. What do you think about it? </h5>
+        </div>
+
+        <div class = sharpbox>
+            <h4 style=display:inline-block;margin-bottom:0px> 
+                <span class="lg-view">Practice Problems</span>
+                <span class="sm-view">Practice</span>
+              </h4>
+            <button onclick="checkAnswers('set1')" style=margin-bottom:0px;float:right;>
+                <span class="lg-view">Check Answers</span>
+                <span class="sm-view">Check</span>
+            </button>
+        </div>
+
+        <ol class = "problem-list" id = "set1">
+            <li class="pbox" data-answer="5" data-type="num"> \(1+4=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="-2" data-type="num"> \(2-4=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="11" data-type="num"> \(5+6=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="5" data-type="num"> \(7-2=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="7" data-type="num"> \(4+3=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="7" data-type="num"> \(8-1=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="25" data-type="num"> \(12+13=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="7" data-type="num"> \(14-7=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="24" data-type="num"> \(16+8=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="16" data-type="num"> \(12+4=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="1" data-type="num"> \(-2+3=\) <input data-input="int"/></li>
+            <li class="pbox" data-answer="-2" data-type="num"> \(-5+3=\) <input data-input="int"/></li>
+        </ol>
+
+        <div class = "roundbox">
+            <div id="test-svg">
+            
+            <svg width="100" height="100">
+            </svg>
+                <script>
+                    var svgns = "http://www.w3.org/2000/svg",
+                        svg = document.createElementNS(svgns, "svg"),
+                        width = 100,
+                        height = 100;
+                    document.getElementById("test-svg").appendChild(svg); 
+                    svg.setAttribute("width", width);
+                    svg.setAttribute("height", height);
+                    svg.setAttribute("fill", "red");
+                    let test = new Shape(100,"black", "circle", 100, 100, svg);    
+                </script>
+            </div>
+        </div>
+    </div>
+    <!-- This needs to go down here and not at the beginning for whatever reason... don't ask me. It seems document.getElementsByTagName only returns nodes appearing previously in the document.-->
+    <script>
+        setAllFilters(document);
+    </script>
+</body>

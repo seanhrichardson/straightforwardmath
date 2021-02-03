@@ -10,7 +10,7 @@
 <head>
   <!-- Basic Page Info-->
   <meta charset="utf-8">
-  <title>Straightforward Math</title>
+  <title>StraightforwardMath</title>
   <meta name="description" content="">
   <meta name="Sean Richardson" content="">
 
@@ -26,21 +26,183 @@
 
   <!-- JavaScript-->
     <!--Custom-->
+    <script src="modules/counting-fit.js"></script>
+    <script src="modules/counting-factorization.js"></script>
+    <script src="modules/counting-base10.js"></script>
+    <script src="modules/shapes.js"></script>
 
     <!-- MathJax-->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
 </head>
 <body>
 
+<div class = "container">
+  <div class="headerbox">
+    <h2>StraightforwardMath</h2>
+    <p style="color:red">This site is still in the early stages of development. Below are some visualizations I have been working on.</p>
+  </div>
+
+    <div class = "sharpbox" id="buttons">
+        <button onclick="plus()">Add 1</button>
+        <button onclick="min()">Subtract 1</button>
+        <span id="number" style="font-size:150%;"></span>
+        <button onClick ="apply('in')" style="float:right;">Apply</button>
+        <input id="in" style="float:right;height:30px;"/>
+    </div>
+    <div class = "sharpbox" id="counting-fit"></div>
+    <div class = "sharpbox" id="counting-factorization"></div>
+    <div class = "sharpbox" id="counting-base10"></div>
+</div>
+
+<script>
+  var SIZE = 500;
+  var WIDTH = 1000;
+  var HEIGHT = 500;
+  var number = 1;
+  var circs1 = [];
+  var circs2 = [];
+  var circs3 = [];
+  var shapeDetails = shapeFunction("circle","purple");
+  
+  
+  const svg1 = d3.select("#counting-fit")
+      .append('svg')
+      .attr('width', '100%')
+      .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+  
+  
+  const svg2 = d3.select("#counting-factorization")
+      .append('svg')
+      .attr('width', '100%')
+      .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+  
+  const svg3 = d3.select("#counting-base10")
+      .append('svg')
+      .attr('width', '100%')
+      .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+  
+  function apply(inputStr) {
+      number = Number(document.getElementById(inputStr).value);
+      set(number);
+  }
+  function set(x) {
+      number = x;
+      if (number < 1) {number = 1;}
+      document.getElementById("number").innerHTML = "Number: " + number;
+      make1(number);
+      make2(number);
+      make3(number);
+  }
+  function plus(){
+      number++;
+      if (number < 1) {number = 1;}
+      document.getElementById("number").innerHTML = "Number: " + number;
+      make1(number);
+      make2(number);
+      make3(number);
+  }
+  function min() {
+      number--;
+      if (number < 1) {number = 1;}
+      document.getElementById("number").innerHTML = "Number: " + number;
+      make1(number);
+      make2(number);
+      make3(number);
+  }
+  
+  set(1);
+  
+  //COUNTING-FIT:
+  function make1(number) {
+      countingFit(svg1, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, number, circs1, shapeDetails);
+  }
+  
+  //COUNTING-FACTORIZATION:
+  function make2(number) {
+      countingFactorization(svg2, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, number, circs2, shapeDetails);
+  }
+  
+  //COUNTING-BASE10:
+  function make3(number) {
+      countingBase10(svg3, WIDTH, HEIGHT, WIDTH/2, HEIGHT/2, number, circs3, shapeDetails);
+  }
+  
+  //COUNTING-NUMBERLINE:
+  
+  </script>
+  
+  
+  <!-- <div class = "left">
+    <div class="dropdown">
+      <a class="dropbtn" href="arithmetic/index.html">Arithmetic</a>
+      <div class="dropdown-content">
+        <a href="arithmetic/counting.html">Counting</a>
+        <a href="arithmetic/addition.html">Addition</a>
+        <a href="arithmetic/subtraction.html">Subtraction</a>
+        <a href="arithmetic/multiplication.html">Multiplication</a>
+        <a href="arithmetic/division.html">Division</a>
+        <a href="arithmetic/zero.html">Zero</a>
+        <a href="arithmetic/negative-numbers.html">Negative Numbers</a>
+        <a href="arithmetic/combining-operations.html">Combining Operations</a>
+        <a href="arithmetic/fractions.html">Fractions</a>
+        <a href="arithmetic/exponents.html">Exponents</a>
+        <a href="arithmetic/large-numbers.html">Large Numbers</a>
+      </div>
+    </div> 
+
+    <div class="dropdown">
+      <a class="dropbtn">Algebra</a>
+      <div class="dropdown-content">
+        <a href="#">TODO 1</a>
+        <a href="#">TODO 2</a>
+        <a href="#">TODO 3</a>
+        <a href="#">TODO 4</a>
+        <a href="#">TODO 5</a>
+        <a href="#">TODO 6</a>
+
+      </div>
+    </div> 
+  </div>
+
+  <div class = "right">
+    <div class="dropdown">
+      <a class="dropbtn">Geometry</a>
+      <div class="dropdown-content">
+        <a href="#">TODO 1</a>
+        <a href="#">TODO 2</a>
+        <a href="#">TODO 3</a>
+        <a href="#">TODO 4</a>
+        <a href="#">TODO 5</a>
+        <a href="#">TODO 6</a>
+      </div>
+    </div> 
+
+    <div class="dropdown">
+      <a class="dropbtn">Number Theory</a>
+      <div class="dropdown-content">
+        <a href="#">TODO 1</a>
+        <a href="#">TODO 2</a>
+        <a href="#">TODO 3</a>
+        <a href="#">TODO 4</a>
+        <a href="#">TODO 5</a>
+        <a href="#">TODO 6</a>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="container">
-  <a href="nice-test.html">
-  <p class = "roundbox">
-  StraightforwardMath is still under development. Click here for some content.
-  </p>
-  </a>
+<div class="roundbox">
+  <h4>About StraightforwardMath</h4>
+  <p>StraightforwardMath will be a free and accessible collection of online interactive mathematics materials that solidify foundational mathematics skills. These materials are presented as a simple and straightforward story, always providing intuitive justification and often allowing students can re-discover the mathematical techniques themselves.</p>
+
+  <p>Pre-college mathematics is often taught as a set of rules and drills, removing the creativity of mathematics. Procedural rules are thrown at students in hope that students retain enough information to complete the problem sets and pass the tests, but this is harmful long term. StraightforwardMath will be a resource to students that wish to quickly re-learn the important material in an intuitive way that will encourae confidence creativity in future mathematics.</p> -->
 </div>
 
 </body>
+
 </html>

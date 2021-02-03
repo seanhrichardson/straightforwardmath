@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <!-- <script type="text/javascript" src=""></script> -->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="s">
+            
+        </div>
+    </div>
+</body>
+
+
+<script>
+    var width = 500;
+    var height = 500;
+
+    const svg = d3.select("#s")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+        var circ = svg.append("circle")
+            .attr("cx",100)
+            .attr("cy",100)
+            .attr("r",20)
+            .attr("fill","red");
+
+        var bar1 = svg.append("rect")
+            .attr("fill", "blue")
+            .attr("x", 100)
+            .attr("y", 20)
+            .attr("height", 20)
+            .attr("width", 10)
+
+        var bar2 = svg.append("rect")
+            .attr("fill", "blue")
+            .attr("x", 120)
+            .attr("y", 20)
+            .attr("height", 20)
+            .attr("width", 10)
+
+    updateCirc();
+
+    updateBar();
+
+    function updateCirc() {
+        circ.transition()
+            .ease(d3.easeLinear)
+            .duration(2000)
+            .attr("cx",300)
+            .attr("cy",300)
+            .attr("r",200)
+    }
+
+    function updateBar() {
+        bar1.transition()
+            .ease(d3.easeLinear)
+            .duration(2000)
+            .attr("height",100);
+
+        bar2.transition()
+            .ease(d3.easeLinear)
+            .duration(2000)
+            .delay(2000)
+            .attr("height",100);
+    }
+</script>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <script src="counting-fit.js"></script>
+    <script src="counting-factorization.js"></script>
+    <script src="counting-base10.js"></script>
+    <script src="shapes.js"></script>
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="s"></div>
+    </div>
+</body>
+
+<script>
+    var WIDTH = 1000;
+    var HEIGHT = 500;
+
+    const svg = d3.select("#s")
+        .append('svg')
+        .attr('width', '100%')
+        .attr('viewBox', '0 0 ' + WIDTH + ' ' + HEIGHT);
+
+    var shapeList = [];
+    var shapeCount = 0;
+
+    circleBlack(svg, shapeList, shapeCount);
+
+    shapeList[0]
+        .attr("transform",  "translate(500, 250) scale(500)");
+
+    shapeList[0].transition()
+        .ease(d3.easeLinear)
+        .duration(1000)
+        .attr("transform",  "translate(500, 250) scale(250)");
+
+</script>

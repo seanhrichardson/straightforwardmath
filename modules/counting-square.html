@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic Page Info-->
+<meta charset="utf-8">
+<title>Straightforward Math</title>
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Mobile Adjustments -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+
+<!-- JavaScript-->
+    <!--Custom-->
+    <!-- <script type="text/javascript" src=""></script> -->
+
+    <!-- MathJax-->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- d3.js -->
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+    <div class = "container">
+        <div class = "sharpbox" id="buttons">
+            <button onclick="plus()">Add 1</button>
+            <button onclick="min()">Subtract 1</button>
+            <button onClick ="apply('in')" style="float:right;">Apply</button>
+            <input id="in" style="float:right;height:30px;"/>
+        </div>
+        <div class = "sharpbox" id="s"></div>
+    </div>
+</body>
+
+
+<!-- TODO: GENERALIZE THIS TO FIT RECTANGLE OF ARBITRARY RATIO-->
+<!-- TODO: MAKE SMOOTHER TRANSITION BETWEEN SIDE-LENGTH JUMP. BOTTOM ROW SWINGS TO RIGHT COLUMN?-->
+<script>
+var SIZE = 500;
+
+var width = 800;
+var height = 500;
+
+const svg = d3.select("#s")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+var circs = [];
+
+var num = 1;
+make(num, width, height);
+
+function apply(inputStr) {
+    num = document.getElementById(inputStr).value;
+    set(Number(num));
+}
+
+function plus() {
+    make(++num, width, height);
+}
+
+function min() {
+    make(--num, width, height);
+}
+
+function set(x) {
+    num = x;
+    make(num, width, height);
+}
+
+function make(number, width, height) {
+    //normalize circs:
+    console.log("NUMBER: " + number);
+    if (number < circs.length) {
+        var i;
+        for (i = number; i < circs.length; i++) {
+            circs[i].remove();
+        }
+        circs.splice(number);
+    }
+    else if (number > circs.length) {
+        for (i = circs.length; i < number; i++) {
+            var circle = svg.append("circle")
+                .attr("cx", width/2)
+                .attr("cy", height/2)
+                .attr("r",0)
+                .attr("fill","black");
+                circs.push(circle);
+        }
+    }
+    else {}
+
+    var dotCount = 0;
+
+    function dot(x, y, size) {
+        circs[dotCount].transition()
+            .ease(d3.easeLinear)
+            .duration(1000)
+            .attr("cx",x)
+            .attr("cy",y)
+            .attr("r",size)
+            .attr("fill","black");
+        dotCount += 1;
+    }
+
+    function spacing(width,height,m,n) {
+        var dotRad, spacingX, spacingY;
+        dotRad = 0.5*0.95*min(width/n,height/n);
+        m == 1 ? spacingX = 0 : spacingX = (width-2*dotRad)/(m-1);
+        n == 1 ? spacingY = 0 : spacingY = (height-2*dotRad)/(n-1);
+        return [dotRad, spacingX, spacingY];
+    }
+
+    function plot(x,y,width,height,m,n,mf,nf,col,i) {
+        // console.log("plotting...");
+        // console.log("i: " + i + "\tx: " + x + "\ty: " + y + "\twidth: " + width + "\theight: " + height + "\tm: " + m + "\tn: " + n + "\tmf: " + mf + "\tnf: " + nf + "\tcol: " + col) 
+        var dotRad, spacingX, spacingY, x0, y0;
+        dotRad = 0.5*0.95*Math.min(width/mf,height/nf);
+        mf == 1 ? spacingX = 0 : spacingX = (width-2*dotRad)/(mf-1);
+        nf == 1 ? spacingY = 0 : spacingY = (height-2*dotRad)/(nf-1);
+        //may need to change below to make n = 1 or m = 1 look good
+        x0 = (x-width/2)+dotRad;
+        y0 = (y-height/2)+dotRad;
+        if (col) {
+            //(m-1, (i-1)%n) location
+            dot(
+                x0+(m-1)*spacingX,
+                y0+((i-1)%n)*spacingY,
+                dotRad
+            );
+        }
+        else {
+            //((i-1)%m,n-1) location
+            dot(
+                x0+((i-1)%m)*spacingX,
+                y0+(n-1)*spacingY,
+                dotRad
+            );
+        }
+    }
+
+    function getFinal(x,y,width,height) {
+        var m = 1; var n = 1; var col = true;
+        var i;
+        for (i = 2; i <= num; i++) {
+            if (m*n < i) {
+                if (Math.min(width/(m+1),height/n) >= Math.min(width/m,height/(n+1))) { m = m+1; }
+                else { n = n+1; }
+            }
+        }
+        return [m, n];
+    }
+
+    //(x,y): center of square. SIZE: side-length
+    function draw(x, y, width, height) {
+        var finalMN = getFinal(x,y,width,height)
+        var m = 1; var n = 1; var col = true;
+        var i;
+        plot(x,y,width,height,m,n,finalMN[0],finalMN[1],col,1)
+        for (i = 2; i <= num; i++) {
+            if (m*n < i) {
+                if (Math.min(width/(m+1),height/n) >= Math.min(width/m,height/(n+1))) {
+                    m = m+1;
+                    col = true;
+                }
+                else {
+                    n = n+1;
+                    col = false;
+                }
+            }
+            plot(x,y,width,height,m,n,finalMN[0],finalMN[1],col,i)
+        }
+    }
+
+    draw(width/2, height/2, width, height);
+}
+
+</script>
